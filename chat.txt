@@ -13,3 +13,7 @@ Prompt: Construye la pantalla ListaContactosScreen usando LazyColumn: cada ítem
 [2023-10-27 10:15:00]
 Description: Implement navigation with NavHost and DetalleContactoScreen
 Prompt: Crea un NavHostController con rememberNavController() en tu composable raíz. Define dos rutas en el NavHost: "lista" → ListaContactosScreen, "detalle/{nombre}/{telefono}/{fotoRes}" → DetalleContactoScreen. Declara los argumentos de la ruta detalle con navArgument, especificando el tipo de cada parámetro (NavType.StringType / NavType.IntType). Al tocar un contacto en la lista, navega con: navController.navigate("detalle/$nombre/$telefono/$fotoRes")
+
+[2023-10-27 10:20:00]
+Description: Add a call button to DetalleContactoScreen using ACTION_DIAL intent
+Prompt: Necesito que agregues un boton en el archivo DetalleContactoScreen.kt y ademas agrega un evento con las siguientes instrucciones: Crea el Intent con Intent(Intent.ACTION_DIAL). Asigna los datos con data = Uri.parse("tel:$telefono"). Lánzalo con context.startActivity(intent). No requiere ningún permiso declarado en el manifiesto. El usuario verá el marcador con el número listo; él decide si confirma la llamada.
