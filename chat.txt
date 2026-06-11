@@ -9,3 +9,7 @@ Prompt: Crea una data class Contacto(nombre: String, telefono: String, fotoRes: 
 [2023-10-27 10:10:00]
 Description: Create ListaContactosScreen with LazyColumn and ContactoItem
 Prompt: Construye la pantalla ListaContactosScreen usando LazyColumn: cada ítem muestra foto o avatar con iniciales, nombre y número. Cada ítem debe recibir una lambda onClick que se invocará al tocarlo.
+
+[2023-10-27 10:15:00]
+Description: Implement navigation with NavHost and DetalleContactoScreen
+Prompt: Crea un NavHostController con rememberNavController() en tu composable raíz. Define dos rutas en el NavHost: "lista" → ListaContactosScreen, "detalle/{nombre}/{telefono}/{fotoRes}" → DetalleContactoScreen. Declara los argumentos de la ruta detalle con navArgument, especificando el tipo de cada parámetro (NavType.StringType / NavType.IntType). Al tocar un contacto en la lista, navega con: navController.navigate("detalle/$nombre/$telefono/$fotoRes")
