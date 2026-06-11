@@ -1,0 +1,3 @@
+[2023-10-27 10:00:00]
+Description: Initializing chat log and following guidelines
+Prompt: sigue las reglas del archivo guidelines
