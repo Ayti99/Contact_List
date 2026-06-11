@@ -1,7 +1,12 @@
 package com.lasalleaytana.contact_list.ui
 
+import android.Manifest
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.net.Uri
+import android.widget.Toast
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
@@ -15,6 +20,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.core.content.ContextCompat
 
 // IA generated: Screen to display the details of a selected contact and allow calling them
 @OptIn(ExperimentalMaterial3Api::class)
@@ -25,8 +31,24 @@ fun DetalleContactoScreen(
     fotoRes: Int,
     onBackClick: () -> Unit
 ) {
-    // IA generated: Get the local context to start the intent
+    // IA generated: Get the local context
     val context = LocalContext.current
+
+    // IA generated: Launcher for requesting the CALL_PHONE permission
+    val permissionLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.RequestPermission()
+    ) { isGranted: Boolean ->
+        if (isGranted) {
+            // IA generated: If permission granted in callback, launch the direct call intent
+            val intent = Intent(Intent.ACTION_CALL).apply {
+                data = Uri.parse("tel:$telefono")
+            }
+            context.startActivity(intent)
+        } else {
+            // IA generated: If permission denied, show a Toast to the user
+            Toast.makeText(context, "El permiso de llamada es necesario para esta acción", Toast.LENGTH_SHORT).show()
+        }
+    }
 
     Scaffold(
         topBar = {
@@ -48,7 +70,7 @@ fun DetalleContactoScreen(
                 .padding(16.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            // IA generated: Display contact image using the resource ID passed as argument
+            // IA generated: Display contact image
             Image(
                 painter = painterResource(id = fotoRes),
                 contentDescription = null,
@@ -74,10 +96,9 @@ fun DetalleContactoScreen(
 
             Spacer(modifier = Modifier.height(32.dp))
 
-            // IA generated: Button to open the dialer with the contact's phone number
+            // IA generated: Original button to open the dialer (no permission required)
             Button(
                 onClick = {
-                    // IA generated: Create and launch intent to dial the number as per instructions
                     val intent = Intent(Intent.ACTION_DIAL).apply {
                         data = Uri.parse("tel:$telefono")
                     }
@@ -85,7 +106,33 @@ fun DetalleContactoScreen(
                 },
                 modifier = Modifier.fillMaxWidth()
             ) {
-                Text(text = "Llamar a $nombre")
+                Text(text = "Abrir Marcador")
+            }
+
+            Spacer(modifier = Modifier.height(8.dp))
+
+            // IA generated: New button for direct calling (requires CALL_PHONE permission)
+            Button(
+                onClick = {
+                    // IA generated: Check if permission is already granted
+                    when (ContextCompat.checkSelfPermission(context, Manifest.permission.CALL_PHONE)) {
+                        PackageManager.PERMISSION_GRANTED -> {
+                            // IA generated: Permission already granted, launch direct call
+                            val intent = Intent(Intent.ACTION_CALL).apply {
+                                data = Uri.parse("tel:$telefono")
+                            }
+                            context.startActivity(intent)
+                        }
+                        else -> {
+                            // IA generated: Permission not granted, request it
+                            permissionLauncher.launch(Manifest.permission.CALL_PHONE)
+                        }
+                    }
+                },
+                modifier = Modifier.fillMaxWidth(),
+                colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.secondary)
+            ) {
+                Text(text = "Llamada Directa")
             }
         }
     }

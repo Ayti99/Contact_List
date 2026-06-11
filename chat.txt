@@ -17,3 +17,7 @@ Prompt: Crea un NavHostController con rememberNavController() en tu composable r
 [2023-10-27 10:20:00]
 Description: Add a call button to DetalleContactoScreen using ACTION_DIAL intent
 Prompt: Necesito que agregues un boton en el archivo DetalleContactoScreen.kt y ademas agrega un evento con las siguientes instrucciones: Crea el Intent con Intent(Intent.ACTION_DIAL). Asigna los datos con data = Uri.parse("tel:$telefono"). Lánzalo con context.startActivity(intent). No requiere ningún permiso declarado en el manifiesto. El usuario verá el marcador con el número listo; él decide si confirma la llamada.
+
+[2023-10-27 10:25:00]
+Description: Add a direct call button with permission handling
+Prompt: Agerga otro boton en la vista de detalle (DetalleContactoScreen.kt) y sigue las siguientes instrucciones para agregar un intent: Declara <uses-permission android:name="android.permission.CALL_PHONE"/> en AndroidManifest.xml. En el composable, usa rememberLauncherForActivityResult(ActivityResultContracts.RequestPermission()) para solicitar el permiso. Al pulsar el botón, verifica primero con ContextCompat.checkSelfPermission: Si el permiso ya está concedido → lanza Intent(Intent.ACTION_CALL, Uri.parse("tel:$telefono")). Si no está concedido → llama al launcher para solicitarlo. En el callback del launcher, lanza el Intent solo si el resultado es true; de lo contrario muestra un Toast o Snackbar indicando que el permiso es necesario.
